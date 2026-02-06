@@ -35,7 +35,7 @@ const Testimonials = () => {
                   className="w-12 h-12 rounded-full"
                 />
                 <div className="flex-1">
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold text-[#233D4D]">
                     {testimonial.author}
                   </p>
                   <p className="text-gray-500 text-sm">{testimonial.title}</p>

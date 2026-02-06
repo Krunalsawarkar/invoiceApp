@@ -38,7 +38,7 @@ const Headers = () => {
             <div className="w-8 h-8 rounded-md bg-[#ff9d5c] flex items-center justify-center">
               <FileText className="text-[#192c38] w-5 h-5" />
             </div>
-            <span className="text-xl font-bold text-[#192c38]">Ai Invoice</span>
+            <span className="text-xl font-bold text-[#192c38]">AI Invoice</span>
           </div>
 
           <div className="hidden lg:flex lg:items-center lg:space-x-8">
@@ -49,7 +49,7 @@ const Headers = () => {
               Features
             </a>
             <a
-              href="#testimonial "
+              href="#testimonials"
               className="text-gray-600 hover:text-gray-900 font-medium transition-colors  duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#192c38] after:transition-all hover:after:w-full "
             >
               Testimonials
@@ -118,7 +118,7 @@ const Headers = () => {
               Features
             </a>
             <a
-              href="#testimonial "
+              href="#testimonials"
               className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-medium transition-colors duration-200"
             >
               Testimonials

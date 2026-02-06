@@ -53,3 +53,36 @@ export const TESTIMONIALS = [
     avatar: "https://i.pravatar.cc/150?u=peterjones",
   },
 ];
+
+export const FAQS = [
+  {
+    question: "How does the AI invoice creation work?",
+    answer:
+      "Simply paste any text that contains invoice details—like an email, a list of items, or a rough draft—and our AI will automatically format it into a professional invoice.",
+  },
+  {
+    question: "Is there a free trial available?",
+    answer:
+      "Yes, you can try our platform for free for 14 days. If you want, we'll provide a demo to help you get started.",
+  },
+  {
+    question: "Can I change my plan later?",
+    answer:
+      "Of course. Our pricing scales with your company. Chat to our friendly team to find the best plan for your needs.",
+  },
+  {
+    question: "What is your cancellation policy?",
+    answer:
+      "We understand that things change. You can cancel your plan at any time and we'll ensure you retain access until the end of your billing period.",
+  },
+  {
+    question: "Can other info be added to an invoice?",
+    answer:
+      "Yes, you can add notes, payment terms, and even attach files to your invoices.",
+  },
+  {
+    question: "How does billing work?",
+    answer:
+      "Plans are per workspace, not per account. You can upgrade one workspace, and share it with your entire team.",
+  },
+];
