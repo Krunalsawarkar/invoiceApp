@@ -1,9 +1,9 @@
 import React from 'react'
 
-const AIInvoice = () => {
+const AllInvoice = () => {
   return (
     <div>AIInvoice</div>
   )
 }
 
-export default AIInvoice
+export default AllInvoice
