@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FileText, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ProfileDropdown from "../layout/ProfileDropdown";
+import Button from "../ui/Button";
 
 const Headers = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isAuthenticate = false;
-  const user = { name: "Jhon", email: "johndoe@gmail.com" };
 
+  const user = { name: "Jhon", email: "johndoe@gmail.com" };
+  const navigate = useNavigate();
   const logout = () => {};
 
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -24,7 +27,7 @@ const Headers = () => {
   }, []);
 
   return (
-    <div
+    <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 bg-gray-100 ${
         isScrolled ? "bg-white/95 backdrop-blur-sm shadow-lg" : "bg-white/0"
       }`}
@@ -62,7 +65,7 @@ const Headers = () => {
           <div className="hidden lg:flex items-center space-x-4">
             {isAuthenticate ? (
               <ProfileDropdown
-                isOpen={profileDropdownOpen}
+                isOpen={profileDropdown}
                 onToggle={(e) => {
                   e.stopPropagation();
                   setProfileDropdown(!profileDropdown);
@@ -82,7 +85,7 @@ const Headers = () => {
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-gradient-to-r from-[#ff822f] to-[#ff9d5b] hover:bg-gray-800 text-[#14242f] px-3 py-2.5 rounded-lg font-bold transition-all duration-200 hover:scale-105 hover:shadow-lg"
+                  className="bg-gradient-to-r from-[#ff822f] to-[#ff9d5b] hover:bg-gray-800 text-[#14242f] px-3 py-2.5 rounded-lg font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg"
                 >
                   Sign Up
                 </Link>
@@ -104,7 +107,59 @@ const Headers = () => {
           </div>
         </div>
       </div>
-    </div>
+
+      {isMenuOpen && (
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-50 shadow-lg">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a
+              href="#features"
+              className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-medium transition-colors duration-200"
+            >
+              Features
+            </a>
+            <a
+              href="#testimonial "
+              className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-medium transition-colors duration-200"
+            >
+              Testimonials
+            </a>
+            <a
+              href="#faq"
+              className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-medium transition-colors duration-200"
+            >
+              FAQ
+            </a>
+            <div className="border-t border-gray-200 my-2"></div>
+            {isAuthenticate ? (
+              <div className="p-4">
+                <Button
+                  onClick={() => navigate("/dashboard")}
+                  className="w-full"
+                  isLoading={false}
+                >
+                  Go to Dashboard
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="block px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 font-medium transition-colors duration-200"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block w-full text-left bg-[#ff9d5c] hover:bg-[#FE7F2D] hover:shadow-lg font-semibold text-[#233D4D] px-4 py-3 rounded-lg font-medium transition-all duration-200"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
   );
 };
 
