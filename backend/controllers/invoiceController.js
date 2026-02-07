@@ -1,5 +1,4 @@
 const Invoice = require("../models/Invoice");
-
 //@desc Create new Invoice
 //@route POST/api/invoices
 //@access Private
@@ -58,6 +57,8 @@ const createInvoice = async (req, res) => {
 
 const getInvoices = async (req, res) => {
   try {
+    const invoices = await Invoice.find().populate("user", "name email");
+    res.status(200).json(invoices);
   } catch (error) {
     res
       .status(500)
@@ -71,6 +72,12 @@ const getInvoices = async (req, res) => {
 
 const getInvoiceById = async (req, res) => {
   try {
+    const invoice = await Invoice.findById(req.params.id).populate(
+      "user",
+      "name email",
+    );
+    if (!invoice) return res.status(404).json({ message: "Invoice not found" });
+    res.status(200).json(invoice);
   } catch (error) {
     res
       .status(500)
@@ -84,6 +91,54 @@ const getInvoiceById = async (req, res) => {
 
 const updateInvoice = async (req, res) => {
   try {
+    const {
+      invoiceNumber,
+      invoiceDate,
+      dueDate,
+      billFrom,
+      billTo,
+      items,
+      notes,
+      paymentTerms,
+      status,
+    } = req.body;
+
+    //Items recalculation if updated
+
+    let subtotal = 0;
+    let taxTotal = 0;
+
+    if (items && items.length > 0) {
+      items.forEach((item) => {
+        subtotal += item.unitPrice * item.quantity;
+        taxTotal +=
+          (item.unitPrice * item.quantity * (item.taxPercent || 0)) / 100;
+      });
+    }
+    const total = subtotal + taxTotal;
+
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+      req.params.id,
+      {
+        invoiceNumber,
+        invoiceDate,
+        dueDate,
+        billFrom,
+        billTo,
+        items,
+        notes,
+        paymentTerms,
+        status,
+        subtotal,
+        taxTotal,
+        total,
+      },
+      { new: true },
+    );
+
+    if (!updatedInvoice)
+      return res.status(404).json({ message: "Invoice not found" });
+    res.status(200).json(updatedInvoice);
   } catch (error) {
     res
       .status(500)
@@ -97,6 +152,9 @@ const updateInvoice = async (req, res) => {
 
 const deleteInvoice = async (req, res) => {
   try {
+    const invoice = await Invoice.findByIdAndDelete(req.params.id);
+    if (!invoice) return res.status(404).json({ message: "Invoice not found" });
+    res.status(200).json({ message: "Invoice deleted successfully" });
   } catch (error) {
     res
       .status(500)
