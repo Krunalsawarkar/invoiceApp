@@ -11,6 +11,6 @@ const router = express.Router();
 
 router.post("/parse-text", protect, parseInvoiceFromText);
 router.post("/generate-remainder", protect, generateRemainderEmail);
-router.post("/dashboard-summary", protect, getDashboardSummary);
+router.get("/dashboard-summary", protect, getDashboardSummary);
 
 module.exports = router;
