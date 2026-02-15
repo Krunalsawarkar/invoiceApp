@@ -107,9 +107,10 @@ const Login = () => {
           setSuccess("Login Successful");
           login(response.data, token);
 
+          // Use navigate instead of window.location.href
           setTimeout(() => {
-            window.location.href = "/dashboard";
-          }, 2000);
+            navigate("/dashboard");
+          }, 1000);
         }
       } else {
         setError(response.data.message);

@@ -24,6 +24,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    terms: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -36,12 +37,14 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    terms: "",
   });
   const [touched, setTouched] = useState({
     name: false,
     email: false,
     password: false,
     confirmPassword: false,
+    terms: false,
   });
 
   const validateName = (name) => {
@@ -58,10 +61,12 @@ const Signup = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: inputValue,
     }));
     setTouched((prev) => ({
       ...prev,
@@ -147,18 +152,33 @@ const Signup = () => {
       formData.password,
     );
 
-    if (nameError || emailError || passwordError || confirmPasswordError) {
+    // Get terms checkbox state
+    const termsCheckbox = document.getElementById("terms");
+    const termsError =
+      termsCheckbox && !termsCheckbox.checked
+        ? "You must agree to the Terms of Service and Privacy Policy"
+        : "";
+
+    if (
+      nameError ||
+      emailError ||
+      passwordError ||
+      confirmPasswordError ||
+      termsError
+    ) {
       setFieldError({
         name: nameError,
         email: emailError,
         password: passwordError,
         confirmPassword: confirmPasswordError,
+        terms: termsError,
       });
       setTouched({
         name: true,
         email: true,
         password: true,
         confirmPassword: true,
+        terms: true,
       });
       return;
     }
@@ -174,7 +194,7 @@ const Signup = () => {
         password: formData.password,
       });
       const data = response.data;
-      const { token, user } = data;
+      const { token } = data;
       if (response.status === 201) {
         setSuccess("Account created successfully");
         setFormData({
@@ -182,15 +202,17 @@ const Signup = () => {
           email: "",
           password: "",
           confirmPassword: "",
+          terms: false,
         });
         setTouched({
           name: false,
           email: false,
           password: false,
           confirmPassword: false,
+          terms: false,
         });
 
-        login(user, token);
+        login(data, token);
         navigate("/dashboard");
       }
     } catch (err) {
@@ -389,23 +411,37 @@ const Signup = () => {
             )}
           </div>
 
-          <div className="flex items-start pt-2">
-            <input
-              type="checkbox"
-              id="terms"
-              className="w-4 h-4 text-[#192c38] border-gray-300 rounded focus:ring-[#192c38] mt-1"
-              required
-            />
-            <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
-              I agree to the{" "}
-              <button className="text-[#ff7520]  hover:underline">
-                Terms of Service
-              </button>{" "}
-              and{" "}
-              <button className="text-[#ff7520]  hover:underline">
-                Privacy Policy
-              </button>
-            </label>
+          <div className="pt-2">
+            <div className="flex items-start">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                checked={formData.terms}
+                onChange={handleInputChange}
+                className={`w-4 h-4 text-[#192c38] rounded focus:ring-[#192c38] mt-1 cursor-pointer ${
+                  fieldError.terms && touched.terms
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
+                required
+              />
+              <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
+                I agree to the{" "}
+                <button className="text-[#ff7520]  hover:underline">
+                  Terms of Service
+                </button>{" "}
+                and{" "}
+                <button className="text-[#ff7520]  hover:underline">
+                  Privacy Policy
+                </button>
+              </label>
+            </div>
+            {fieldError.terms && touched.terms && (
+              <p className="text-red-500 text-xs mt-1 font-semibold">
+                {fieldError.terms}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}

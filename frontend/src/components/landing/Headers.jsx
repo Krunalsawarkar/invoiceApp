@@ -4,16 +4,15 @@ import { FileText, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileDropdown from "../layout/ProfileDropdown";
 import Button from "../ui/Button";
+import { useAuth } from "../../context/AuthContext";
 
 const Headers = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isAuthenticate = false;
+  const { isAuthenticated, user, logout } = useAuth();
 
-  const user = { name: "Jhon", email: "johndoe@gmail.com" };
   const navigate = useNavigate();
-  const logout = () => {};
 
   const [profileDropdown, setProfileDropdown] = useState(false);
 
@@ -63,7 +62,7 @@ const Headers = () => {
           </div>
 
           <div className="hidden lg:flex items-center space-x-4">
-            {isAuthenticate ? (
+            {isAuthenticated ? (
               <ProfileDropdown
                 isOpen={profileDropdown}
                 onToggle={(e) => {
