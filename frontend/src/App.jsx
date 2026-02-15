@@ -10,6 +10,7 @@ import CreateInvoice from "./pages/Invoices/CreateInvoice";
 import InvoiceDetails from "./pages/Invoices/InvoiceDetails";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import Profile from "./pages/Profile/Profile";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="invoices" element={<AllInvoice />} />
             <Route path="invoices/new" element={<CreateInvoice />} />
             <Route path="invoices/:id" element={<InvoiceDetails />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
 
           {/* Catch All Routes */}

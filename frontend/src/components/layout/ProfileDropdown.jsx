@@ -31,34 +31,38 @@ const ProfileDropdown = ({
             </span>
           </div>
         )}
-        {/* <div className="hidden sm:block text-left">
+        <div className="hidden sm:block text-left">
           <p className="text-sm font-medium text-[#192c38]">{companyName}</p>
           <p className="text-xs text-gray-500">{email}</p>
         </div>
-        <ChevronDown className="h-4 w-4 text-gray-400" /> */}
+        <ChevronDown className="h-4 w-4 text-gray-400" />
       </button>
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 pt-1 z-50">
-          <div className="px-4 py-3 border-b border-gray-100">
+          <div className="px-4 py-3 border-b border-gray-100 md:hidden">
             <p className="text-sm font-medium text-[#192c38]">{companyName}</p>
             <p className="text-xs text-gray-500">{email}</p>
           </div>
-          <a
-            href=""
-            onClick={() => navigate("/profile")}
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/profile");
+            }}
+            className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
           >
             View Profile
-          </a>
+          </button>
           <div className="border-t border-gray-100 ">
-            <a
-              href="#"
-              onClick={onLogout}
-              className="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                onLogout();
+              }}
+              className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
             >
               Sign out
-            </a>
+            </button>
           </div>
         </div>
       )}

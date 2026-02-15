@@ -129,7 +129,7 @@ const Headers = () => {
               FAQ
             </a>
             <div className="border-t border-gray-200 my-2"></div>
-            {isAuthenticate ? (
+            {isAuthenticated ? (
               <div className="p-4">
                 <Button
                   onClick={() => navigate("/dashboard")}
