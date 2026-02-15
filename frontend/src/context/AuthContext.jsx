@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
-    isAuthenticated(true);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {

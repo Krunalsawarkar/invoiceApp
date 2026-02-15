@@ -32,8 +32,8 @@ const Login = () => {
     password: "",
   });
   const [touched, setTouched] = useState({
-    email: "",
-    password: "",
+    email: false,
+    password: false,
   });
 
   const handleInputChange = (e) => {
@@ -80,9 +80,9 @@ const Login = () => {
 
   const handleSubmit = async () => {
     const emailError = validateEmail(formData.email);
-    const passwordEmail = validatePassword(formData.password);
+    const passwordError = validatePassword(formData.password);
 
-    if (emailError || passwordEmail) {
+    if (emailError || passwordError) {
       setFieldError({
         email: emailError,
         password: passwordError,
@@ -112,10 +112,16 @@ const Login = () => {
           }, 2000);
         }
       } else {
-        setError(response.data.message || "Invalid Credentials");
+        setError(response.data.message);
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
+      if (err.response && err.response.status === 401) {
+        setError("Account not found, Please Sign up");
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setError(err.response.data.message);
       } else {
         setError("An error occurred during login");
@@ -127,7 +133,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-sm">
         {/* Header Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-[#ff822f] to-[#ff9d5b] rounded-xl mb-4">
@@ -161,7 +167,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-[#192c38] mb-2"
+              className="block text-sm font-semibold text-[#192c38] mb-2"
             >
               Email
             </label>
@@ -175,7 +181,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 onBlur={handleBlur}
                 placeholder="Enter your email"
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-lg outline-none focus:border-transparent focus:ring-2 transition-all ${
                   fieldError.email && touched.email
                     ? "border-red-500 focus:ring-red-500"
                     : "border-gray-300 focus:ring-[#ff9234]"
@@ -183,7 +189,9 @@ const Login = () => {
               />
             </div>
             {fieldError.email && touched.email && (
-              <p className="text-red-500 text-xs mt-1">{fieldError.email}</p>
+              <p className="text-red-500 text-xs mt-1 font font-semibold">
+                {fieldError.email}
+              </p>
             )}
           </div>
 
@@ -191,7 +199,7 @@ const Login = () => {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-[#192c38] mb-2"
+              className="block text-sm font-semibold text-[#192c38] mb-2"
             >
               Password
             </label>
@@ -205,7 +213,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 onBlur={handleBlur}
                 placeholder="Enter your password"
-                className={`w-full pl-10 pr-10 py-2.5 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
+                className={`w-full pl-10 pr-10 py-2.5 border rounded-lg outline-none focus:border-transparent focus:ring-2 transition-colors ${
                   fieldError.password && touched.password
                     ? "border-red-500 focus:ring-red-500"
                     : "border-gray-300 focus:ring-[#ff9234]"
@@ -224,16 +232,17 @@ const Login = () => {
               </button>
             </div>
             {fieldError.password && touched.password && (
-              <p className="text-red-500 text-xs mt-1">{fieldError.password}</p>
+              <p className="text-red-500 text-xs mt-1 font-semibold">
+                {fieldError.password}
+              </p>
             )}
           </div>
 
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            type="submit"
-            disabled={isLoading || !isFormValid()}
-            className="flex items-center justify-center w-full py-2.5 px-4 bg-gradient-to-r from-[#ff822f] to-[#ff9234] text-white font-semibold rounded-lg hover:from-[#ff7520] hover:to-[#ff8226] transition-all duration-200  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 group"
+            type="button"
+            className="flex items-center justify-center w-full py-2.5 px-4 bg-gradient-to-r from-[#ff822f] to-[#ff9234] text-[#192c38] font-semibold rounded-lg hover:from-[#ff7520] hover:to-[#ff8226] transition-all duration-200  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 group"
           >
             {isLoading ? (
               <>
